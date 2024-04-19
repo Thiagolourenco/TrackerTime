@@ -5,4 +5,6 @@ import { Button } from "./Button";
 import CalendarComponent from "./Calendar";
 import { TimelineCalendar } from "./Timeline";
 
-export { Box, Text, Button, CalendarComponent, TimelineCalendar  }
+import TabCustom from "./TabCustom/TabCustom.component";
+
+export { Box, Text, Button, CalendarComponent, TimelineCalendar, TabCustom }

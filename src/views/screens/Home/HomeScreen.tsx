@@ -4,11 +4,14 @@ import Icon from "react-native-vector-icons/FontAwesome"
 
 import { Box, Text } from "../../components";
 import BottomSheet from "../../components/BottomSheet/BottomSheet";
+import { useNavigation } from "@react-navigation/native";
 
 const Data = [0,1,2,3]
 
 export default () => {
   const [isOpenBottomSheet, setIsOpenBottomSheet] = useState<boolean>(false)
+
+  const { navigate } = useNavigation()
 
   const handleOpen = () => {
     setIsOpenBottomSheet(true)
@@ -65,7 +68,7 @@ export default () => {
 
 
             <Box
-              width={230}
+              width={200}
               height={150}
               borderRadius={16}
               backgroundColor="cardPrimaryBackground"
@@ -76,7 +79,7 @@ export default () => {
           </Box>
 
           <FlatList 
-          style={{ height: "100%" }}
+            style={{ height: "100%" }}
             data={Data}
             renderItem={() => (
               <Box
@@ -104,10 +107,12 @@ export default () => {
                   justifyContent: "center",
                   alignItems: "center",
                   borderWidth: 1,
-                  borderColor: "#212121"
+                  borderColor: "#212121",
+                  backgroundColor: "#000000",
                 }}
+                onPress={() => navigate("PomodoroScreen")}
                >
-                <Text>></Text>
+                <Icon name="play" size={14} color="#FFFFFF" />
                </TouchableOpacity>
               </Box>
             )}
