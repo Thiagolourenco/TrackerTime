@@ -1,13 +1,21 @@
-import React from "react";
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import React, { useState } from "react";
+import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { FadeIn, SlideInDown, SlideInUp, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
+import { Box } from "../Box";
+import { Text } from "../Text";
+import TextInputComponent from "../TextInput/TextInput.component";
+import { getNormalizedSizeWithPlatformOffset } from "../../../helpers/pixelPerfect";
+import SliderComponent from "../Slider";
+import { Button } from "../Button";
+
 interface IBottomSheet {
   onClose: () => void
+  children: React.ReactNode;
 }
 
-const BottomSheet = ({ onClose }: IBottomSheet) => {
+const BottomSheet = ({ onClose, children }: IBottomSheet) => {
   const offset = useSharedValue(0)
 
   const close = () => {
@@ -45,7 +53,17 @@ const BottomSheet = ({ onClose }: IBottomSheet) => {
         style={[styles.container, stylesSheet]}
         entering={SlideInDown.duration(600)}
       >
-        <Text>BottomSheet</Text>
+        {/** Informação do BottomSheet, deve ser um children */}
+       <Box>
+        <Text 
+          color="white"
+          fontSize={16}
+          fontWeight="600"
+          margin="m"
+        >Create Tarefa</Text>
+       </Box>
+
+      {children}
       </Animated.View>
     </GestureDetector>
   )
@@ -59,14 +77,14 @@ export const SHEET_OVER_DRAG = 20
 
 const styles = StyleSheet.create({ 
   container: {
-    height:"80%",
+    height:"100%",
     width: DIMENSIONS.width,
     backgroundColor: "#1E1F23",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
 
     position: "absolute",
-    bottom: -SHEET_OVER_DRAG * 1.3,
+    bottom: -SHEET_OVER_DRAG * 1.8,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FlatList, SafeAreaView, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"
 
-import { Box, Text } from "../../components";
+import { AddTask, Box, Text } from "../../components";
 import BottomSheet from "../../components/BottomSheet/BottomSheet";
 import { useNavigation } from "@react-navigation/native";
 
@@ -121,7 +121,12 @@ export default () => {
 
       </Box>
     
-      {isOpenBottomSheet &&  <BottomSheet onClose={() => setIsOpenBottomSheet(false)} />}
+      {isOpenBottomSheet &&  (
+        <BottomSheet 
+          onClose={() => setIsOpenBottomSheet(false)} 
+          children={<AddTask />}
+        />
+      )}
 
       </View>
     </SafeAreaView>

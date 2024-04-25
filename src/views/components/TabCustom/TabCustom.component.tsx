@@ -80,10 +80,7 @@ const TabCustom = ({props}: any ) => {
           ? options.title
           : item.name;
 
-
-        console.log("OPTIONS", label)
         const barCustom = DATA[label]
-
 
         return (
           <TouchableOpacity 
