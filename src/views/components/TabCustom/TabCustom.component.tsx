@@ -1,10 +1,12 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import IconAnt from 'react-native-vector-icons/AntDesign'
 import IconEntypo from 'react-native-vector-icons/Entypo'
 import IconIonicons from 'react-native-vector-icons/Ionicons'
 
 const TabCustom = ({props}: any ) => {
+  console.log("PROPS ", JSON.stringify(props))
+  const [isZindex, setIsZindex] = useState<boolean>(false)
 
   const DATA = {
     PomodoroScreen: {
@@ -28,8 +30,21 @@ const TabCustom = ({props}: any ) => {
       icon: <IconIonicons name="person" size={22} color="#ffffff" />
     }
   }
+
+  useEffect(() => {
+    const hasBottomSheet = props.state.routes.some(route => route.params?.isBottomSheet === true);
+
+    console.log("OPA", hasBottomSheet)
+    if (hasBottomSheet) {
+      setIsZindex(true);
+    } else {
+      setIsZindex(false)
+    }
+  }, [props])
+  
   
   const onPress = (route, index) => {
+    
     const isFocused = props.state.index === index;
 
     const event = props.navigation.emit({
@@ -65,10 +80,11 @@ const TabCustom = ({props}: any ) => {
         borderBottomColor: "#8C6FF7",
         // marginBottom: 32,
         position: "absolute",
+        zIndex: isZindex ? -1 : 1,
         bottom: 32,
         width: "90%",
         borderRadius: 32,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
       }}>
       {props.state.routes.map((item, index) => {
         const { options } = props.descriptors[item.key];
@@ -81,6 +97,7 @@ const TabCustom = ({props}: any ) => {
           : item.name;
 
         const barCustom = DATA[label]
+
 
         return (
           <TouchableOpacity 

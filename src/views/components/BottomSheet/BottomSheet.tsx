@@ -5,21 +5,24 @@ import Animated, { FadeIn, SlideInDown, SlideInUp, runOnJS, useAnimatedStyle, us
 
 import { Box } from "../Box";
 import { Text } from "../Text";
-import TextInputComponent from "../TextInput/TextInput.component";
-import { getNormalizedSizeWithPlatformOffset } from "../../../helpers/pixelPerfect";
-import SliderComponent from "../Slider";
-import { Button } from "../Button";
+import useStyles from "./BottomSheet.style";
 
 interface IBottomSheet {
   onClose: () => void
   children: React.ReactNode;
   height?: DimensionValue
-  title: string
+  title: string,
+  sheetOverDrag?: number
 }
 
-const BottomSheet = ({ onClose, children, height = "100%", title }: IBottomSheet) => {
+export const SHEET_HEIGHT = 220
+export const SHEET_OVER_DRAG = 20
+
+
+const BottomSheet = ({ onClose, children, height = "100%", title, sheetOverDrag = 20 }: IBottomSheet) => {
   const offset = useSharedValue(0)
 
+  const styles = useStyles({ sheetOverDrag })
   const close = () => {
     offset.value = 0
     onClose()
@@ -45,7 +48,6 @@ const BottomSheet = ({ onClose, children, height = "100%", title }: IBottomSheet
   const stylesSheet = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: offset.value }],
-      zIndex: 1
     }
   })
 
@@ -73,32 +75,3 @@ const BottomSheet = ({ onClose, children, height = "100%", title }: IBottomSheet
 }
 
 export default BottomSheet
-
-const DIMENSIONS = Dimensions.get("window")
-export const SHEET_HEIGHT = 220
-export const SHEET_OVER_DRAG = 20
-
-const styles = StyleSheet.create({ 
-  container: {
-    width: DIMENSIONS.width,
-    backgroundColor: "#1E1F23",
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-
-    position: "absolute",
-    bottom: -SHEET_OVER_DRAG * 1.8,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "#ccc",
-  },
-  contentBottomSheet: {
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center", 
-    alignItems: "center",
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: "80%"
-  }
-})

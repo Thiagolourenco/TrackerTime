@@ -8,6 +8,7 @@ import PaywallScreen from '../Paywall'
 import { Box, Text } from '../../components'
 import BottomSheet from '../../components/BottomSheet/BottomSheet'
 import { getNormalizedSizeWithPlatformOffset, getNormalizedVerticalSizeWithPlatformOffset } from '../../../helpers/pixelPerfect'
+import { useNavigation } from '@react-navigation/native'
 
 // shield-checkmark-outline
 // Person
@@ -55,12 +56,21 @@ const ProfileScreen = () => {
   const [isPremium, setIsPremium] = useState<boolean>(false)
   const [isLogout, setIsLogout] = useState<boolean>(false)
 
+  const { setParams } = useNavigation()
+
   const handleIsPremium = () => {
     setIsPremium(true)
   }
 
   const handleIsOpenBottomSheetLogout = () => {
     setIsLogout(true)
+
+    setParams({ isBottomSheet: true }) // TIPAR 
+  }
+
+  const handleClose = () => {
+    setIsLogout(false)
+    setParams({ isBottomSheet: false })
   }
 
   const Logout = () => {
@@ -81,6 +91,7 @@ const ProfileScreen = () => {
         >
           <TouchableOpacity
             activeOpacity={0.8}
+            onPress={handleClose}
           >
             <Box
               backgroundColor='purpleLight'
@@ -236,9 +247,10 @@ const ProfileScreen = () => {
      {isLogout && (
         <BottomSheet 
           title='Sair'
-          onClose={() => setIsLogout(false)}
-          height={200}
+          onClose={handleClose}
+          height={220}
           children={<Logout />}
+          sheetOverDrag={120}
         />
      )}
      

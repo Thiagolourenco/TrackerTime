@@ -121,14 +121,13 @@ export default () => {
 
       </Box>
     
-      {isOpenBottomSheet &&  (
-        <BottomSheet 
-          title="Criar Tarefa"
-          onClose={() => setIsOpenBottomSheet(false)} 
-          children={<AddTask />}
-        />
-      )}
-
+        {isOpenBottomSheet &&  (
+          <BottomSheet 
+            title="Criar Tarefa"
+            onClose={() => setIsOpenBottomSheet(false)} 
+            children={<AddTask />}
+          />
+        )}
       </View>
     </SafeAreaView>
   
