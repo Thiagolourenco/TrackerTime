@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Dimensions, TouchableOpacity, DimensionValue } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { FadeIn, SlideInDown, SlideInUp, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
@@ -13,9 +13,11 @@ import { Button } from "../Button";
 interface IBottomSheet {
   onClose: () => void
   children: React.ReactNode;
+  height?: DimensionValue
+  title: string
 }
 
-const BottomSheet = ({ onClose, children }: IBottomSheet) => {
+const BottomSheet = ({ onClose, children, height = "100%", title }: IBottomSheet) => {
   const offset = useSharedValue(0)
 
   const close = () => {
@@ -50,7 +52,7 @@ const BottomSheet = ({ onClose, children }: IBottomSheet) => {
   return (
     <GestureDetector gesture={pan}>
       <Animated.View 
-        style={[styles.container, stylesSheet]}
+        style={[styles.container, stylesSheet, { height }]}
         entering={SlideInDown.duration(600)}
       >
         {/** Informação do BottomSheet, deve ser um children */}
@@ -60,7 +62,8 @@ const BottomSheet = ({ onClose, children }: IBottomSheet) => {
           fontSize={16}
           fontWeight="600"
           margin="m"
-        >Create Tarefa</Text>
+          textAlign="center"
+        >{title}</Text>
        </Box>
 
       {children}
@@ -77,7 +80,6 @@ export const SHEET_OVER_DRAG = 20
 
 const styles = StyleSheet.create({ 
   container: {
-    height:"100%",
     width: DIMENSIONS.width,
     backgroundColor: "#1E1F23",
     borderTopLeftRadius: 16,

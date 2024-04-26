@@ -123,6 +123,7 @@ export default () => {
     
       {isOpenBottomSheet &&  (
         <BottomSheet 
+          title="Criar Tarefa"
           onClose={() => setIsOpenBottomSheet(false)} 
           children={<AddTask />}
         />

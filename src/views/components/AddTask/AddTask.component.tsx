@@ -138,8 +138,8 @@ const AddTask = () => {
           label="Criar nova tarefa"
           onPress={handleRegisterNewTask}
           width={getNormalizedSizeWithPlatformOffset(300)}
-          backgroundColor="buttonPrimary"
-          paddingVertical="sm"
+          backgroundColor="purplePrimary"
+          paddingVertical="m"
           borderRadius={8}
           marginLeft="l"
           marginTop="xl"

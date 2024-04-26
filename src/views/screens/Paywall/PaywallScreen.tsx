@@ -5,19 +5,28 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { Box, Text, Button } from '../../components'
 import { PaylwallIlustration } from '../../../assets'
 
-const PaywallScreen = () => {
+interface IPaywallScreen {
+  isShow: boolean,
+  close: () => void
+}
+
+const PaywallScreen = ({ close, isShow }: IPaywallScreen) => {
   const [planSelect, setPlanSelect] = useState<string | null>("monthly")
 
   const handleSelectPlan = (plan: string) => {
     setPlanSelect(plan)
   }
+  
+  const handleClose = () => {
+    close()
+  }
 
   return (
     <Modal
-      visible={true}
+      visible={isShow}
       style={{ height: 600 }}
       transparent
-      animationType='fade'
+      animationType='slide'
     >
       <Box height={"100%"} backgroundColor='blackOpacity'>
         <Box 
@@ -33,7 +42,13 @@ const PaywallScreen = () => {
           pb="xll"
         >
 
-          <Icon name="close" size={32} color="#000" style={{ marginBottom: 32, position: "absolute", left: 16, top: 16}}/>
+          <TouchableOpacity
+            activeOpacity={0.8} 
+            onPress={close}
+            style={{ marginBottom: 32, position: "absolute", left: 16, top: 16}}
+          >
+            <Icon name="close" size={32} color="#000" />
+          </TouchableOpacity>
 
           <PaylwallIlustration />
           <Text
@@ -144,7 +159,7 @@ const PaywallScreen = () => {
               alignItems='center'
             >
               <Box 
-                backgroundColor={planSelect === "monthly" ? 'buttonPrimary' : "white"} 
+                backgroundColor={planSelect === "monthly" ? 'purplePrimary' : "white"} 
                 justifyContent='center' 
                 alignItems='center' 
                 width={25} 
@@ -173,7 +188,7 @@ const PaywallScreen = () => {
             mt="m"
           >
             <Box 
-              backgroundColor={planSelect === "yearly" ? "buttonPrimary" : "white"} 
+              backgroundColor={planSelect === "yearly" ? "purplePrimary" : "white"} 
               width={25} 
               height={25} 
               borderRadius={13} 
@@ -195,8 +210,8 @@ const PaywallScreen = () => {
             width={240}
             borderRadius={8}
             paddingVertical='m'
-            backgroundColor='buttonPrimary'
-            onPress={() => {}}
+            backgroundColor='purplePrimary'
+            onPress={() => handleClose()}
             label='Iniciar 3 dias grátis'
           />
           {/* <TouchableOpacity>

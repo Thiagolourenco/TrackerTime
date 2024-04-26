@@ -1,11 +1,13 @@
-import React from 'react'
-import { View, Modal, SafeAreaView } from 'react-native'
+import React, { useState } from 'react'
+import { View, Modal, SafeAreaView, TouchableOpacity } from 'react-native'
 import IconF from 'react-native-vector-icons/Feather'
 import IconIonicons from 'react-native-vector-icons/Ionicons'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
 
 import PaywallScreen from '../Paywall'
 import { Box, Text } from '../../components'
+import BottomSheet from '../../components/BottomSheet/BottomSheet'
+import { getNormalizedSizeWithPlatformOffset, getNormalizedVerticalSizeWithPlatformOffset } from '../../../helpers/pixelPerfect'
 
 // shield-checkmark-outline
 // Person
@@ -50,6 +52,73 @@ const PROFILE_LIST = [
 ]
 
 const ProfileScreen = () => {
+  const [isPremium, setIsPremium] = useState<boolean>(false)
+  const [isLogout, setIsLogout] = useState<boolean>(false)
+
+  const handleIsPremium = () => {
+    setIsPremium(true)
+  }
+
+  const handleIsOpenBottomSheetLogout = () => {
+    setIsLogout(true)
+  }
+
+  const Logout = () => {
+    return (
+      <Box>
+        <Text
+          fontSize={16}
+          fontWeight='bold'
+          color="white"
+          textAlign='center'
+        >Deseja realmente sair ?</Text>
+
+        <Box 
+          flexDirection='row' 
+          alignItems='center'
+          justifyContent='space-around'  
+          mt="ll"
+        >
+          <TouchableOpacity
+            activeOpacity={0.8}
+          >
+            <Box
+              backgroundColor='purpleLight'
+              height={getNormalizedVerticalSizeWithPlatformOffset(45)}
+              width={getNormalizedSizeWithPlatformOffset(150)}
+              borderRadius={8}
+              justifyContent='center'
+              alignItems='center'
+            >
+              <Text
+                color="white"
+                fontWeight='500'
+                fontSize={16}
+              >Cancelar</Text>
+            </Box>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+          >
+            <Box
+              backgroundColor='purplePrimary'
+              height={getNormalizedVerticalSizeWithPlatformOffset(45)}
+              width={getNormalizedSizeWithPlatformOffset(150)}
+              borderRadius={8}
+              justifyContent='center'
+              alignItems='center'
+            >
+              <Text
+                fontWeight='bold'
+                fontSize={16}
+                color="white"
+              >Sair</Text>
+            </Box>
+          </TouchableOpacity>
+        </Box>
+      </Box>
+    )
+  }
   return (
     <SafeAreaView>
       <Box
@@ -90,59 +159,67 @@ const ProfileScreen = () => {
             color="black400"
           >thiagolourencosaraiva123@gmail.com</Text>
         </Box>
-        <Box
-          backgroundColor='purplePrimary'
-          padding="sm"
-          borderRadius={16}
-          mt="ml"
-          paddingVertical='m'
-          shadowColor='purpleLight'
-          shadowOffset={{
-            height: 4,
-            width: 4
-          }}
-          shadowOpacity={1}
-          shadowRadius={8}
-          elevation={8}
-        >
+
+        <TouchableOpacity onPress={handleIsPremium} activeOpacity={1}>
           <Box
-            flexDirection='row'
-            alignItems='center'
+            backgroundColor='purplePrimary'
+            padding="sm"
+            borderRadius={16}
+            mt="ml"
+            paddingVertical='m'
+            shadowColor='purpleLight'
+            shadowOffset={{
+              height: 4,
+              width: 4
+            }}
+            shadowOpacity={1}
+            shadowRadius={8}
+            elevation={8}
           >
             <Box
-              backgroundColor='purpleLight'
-              height={20}
-              width={40}
-              justifyContent='center'
+              flexDirection='row'
               alignItems='center'
-              borderRadius={20}
             >
+              <Box
+                backgroundColor='purpleLight'
+                height={20}
+                width={40}
+                justifyContent='center'
+                alignItems='center'
+                borderRadius={20}
+              >
+                <Text
+                  color='white'
+                  fontWeight='bold'
+                  fontSize={10}
+                >PRO</Text>
+              </Box>
               <Text
                 color='white'
                 fontWeight='bold'
-                fontSize={10}
-              >PRO</Text>
+                marginLeft='sm'
+              >Faça o upgrade do plano</Text>
             </Box>
             <Text
               color='white'
-              fontWeight='bold'
-              marginLeft='sm'
-            >Faça o upgrade do plano</Text>
+              fontWeight='400'
+              marginTop='sm'
+            >Desbloqueie as melhores funcionalidade do seu Aplicativo</Text>
           </Box>
-          <Text
-            color='white'
-            fontWeight='400'
-            marginTop='sm'
-          >Desbloqueie as melhores funcionalidade do seu Aplicativo</Text>
-        </Box>
+        </TouchableOpacity>
+       
 
         {/** List Functions User Profile */}
         <Box mt="ml">
           {PROFILE_LIST.map((item, index) => (
-            <Box
-              flexDirection='row'
-              alignItems='center'
-              mt="m"
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => item.name === "Sair" ? handleIsOpenBottomSheetLogout() : {}}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 16
+              }}
             >
               {item.icon}
               <Text
@@ -150,10 +227,21 @@ const ProfileScreen = () => {
                 fontSize={18}
                 color={item.name === "Sair" ? "purplePrimary" : "black400"}
               >{item.name}</Text>
-            </Box>
+            </TouchableOpacity>
           ))}
         </Box>
       </Box>
+      
+      <PaywallScreen isShow={isPremium} close={() => setIsPremium(false)} />
+     {isLogout && (
+        <BottomSheet 
+          title='Sair'
+          onClose={() => setIsLogout(false)}
+          height={200}
+          children={<Logout />}
+        />
+     )}
+     
     </SafeAreaView>
 
   )
