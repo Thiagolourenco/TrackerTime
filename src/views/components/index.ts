@@ -9,6 +9,8 @@ import { TimelineCalendar } from "./Timeline";
 import AddTask from "./AddTask";
 
 import TabCustom from "./TabCustom/TabCustom.component";
+import BarPath from "./BarPath/BarPath.component";
+import DonutChart from "./DonutChart/DonutChart";
 
 export { 
   Box, 
@@ -19,5 +21,7 @@ export {
   TabCustom, 
   TextInputComponent,
   SliderComponent,
-  AddTask
+  AddTask,
+  BarPath,
+  DonutChart
 }

@@ -29,6 +29,7 @@ const palette = {
   black: '#000000',
   black400: '#212121',
   white: '#ffffff',
+  gray: "#f4f7fc",
   blackOpacity: "rgba(0,0,0,0.4)"
 };
 
@@ -45,7 +46,11 @@ const theme = createTheme({
     purplePrimary: palette.purplePrimary,
     white: palette.white,
     blackOpacity: palette.blackOpacity,
-    black400: palette.black400
+    black400: palette.black400,
+    greenLight: palette.greenLight,
+    greenDark: palette.greenDark,
+    greenPrimary: palette.greenPrimary,
+    gray: palette.gray
   },
   spacing: {
     s: 8,

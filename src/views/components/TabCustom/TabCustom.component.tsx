@@ -1,8 +1,10 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import Animated, { Easing } from 'react-native-reanimated'
 import IconAnt from 'react-native-vector-icons/AntDesign'
 import IconEntypo from 'react-native-vector-icons/Entypo'
 import IconIonicons from 'react-native-vector-icons/Ionicons'
+import { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 
 const TabCustom = ({props}: any ) => {
   console.log("PROPS ", JSON.stringify(props))
@@ -65,10 +67,16 @@ const TabCustom = ({props}: any ) => {
       });
     };
 
+  
+  const zIndexStyle = useAnimatedStyle(() => {
+    return {
+      zIndex: withTiming(isZindex ? -1 : 1, { duration: 400})
+    }
+  })
     
   return (
-    <View 
-      style={{ 
+    <Animated.View 
+      style={[{ 
         flexDirection: "row", 
         justifyContent: "space-around", 
         alignItems: "center", 
@@ -80,12 +88,11 @@ const TabCustom = ({props}: any ) => {
         borderBottomColor: "#8C6FF7",
         // marginBottom: 32,
         position: "absolute",
-        zIndex: isZindex ? -1 : 1,
         bottom: 32,
         width: "90%",
         borderRadius: 32,
         backgroundColor: "#ffffff",
-      }}>
+      }, zIndexStyle]}>
       {props.state.routes.map((item, index) => {
         const { options } = props.descriptors[item.key];
 
@@ -122,7 +129,7 @@ const TabCustom = ({props}: any ) => {
       }
        
       )}
-    </View>
+    </Animated.View>
   )
 }
 
