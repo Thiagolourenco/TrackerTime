@@ -1,89 +1,81 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"
+import React, {useState} from 'react';
+import {FlatList, SafeAreaView, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-import { AddTask, Box, Text } from "../../components";
-import BottomSheet from "../../components/BottomSheet/BottomSheet";
-import { useNavigation } from "@react-navigation/native";
+import {AddTask, Box, Text, Button} from '../../components';
+import BottomSheet from '../../components/BottomSheet/BottomSheet';
+import {
+  getNormalizedSizeWithPlatformOffset,
+  getNormalizedVerticalSizeWithPlatformOffset,
+} from '../../../helpers/pixelPerfect';
+import {RoutesNavigationBottomTab} from '../../../@types';
 
-const Data = [0,1,2,3]
+const Data = [0, 1, 2, 3];
+
+type PropsNavigation = StackNavigationProp<
+  RoutesNavigationBottomTab,
+  'PomodoroScreen'
+>;
 
 export default () => {
-  const [isOpenBottomSheet, setIsOpenBottomSheet] = useState<boolean>(false)
+  const [isOpenBottomSheet, setIsOpenBottomSheet] = useState<boolean>(false);
 
-  const { navigate } = useNavigation()
+  const {navigate} = useNavigation<PropsNavigation>();
 
   const handleOpen = () => {
-    setIsOpenBottomSheet(true)
-  }
+    setIsOpenBottomSheet(true);
+  };
 
   return (
     <SafeAreaView>
-      <View style={{ height: "100%"}}>
-      <Box 
-        marginHorizontal="m"
-      >
-        <Box
-          flexDirection="row"
-          justifyContent="space-between" 
-          alignItems="center"
-        >
-            <Box 
-              width={50} 
-              height={50} 
-              borderRadius={25} 
-              backgroundColor="mainBackground" 
-
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={handleOpen}
-              style={{
-                height: 30,
-                width: 30,
-                borderRadius: 15,
-                backgroundColor: "#212121",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Text color="mainBackground" style={{ fontSize: 18}}>+</Text>
-            </TouchableOpacity>
-            
-          </Box>
-
+      <View style={{height: '100%'}}>
+        <Box marginHorizontal="m">
           <Box
             flexDirection="row"
-            mt="xl"
-            mb="m"
-          >
+            justifyContent="space-between"
+            alignItems="center">
+            <Box flexDirection="row" alignItems="center">
+              <Box
+                width={50}
+                height={50}
+                borderRadius={25}
+                backgroundColor="mainBackground"
+              />
+              <Text ml="sm">Olá, Thiago</Text>
+            </Box>
+
+            <Button
+              icon={<Icon name="plus" color="#ffffff" size={12} />}
+              onPress={handleOpen}
+              buttonVariants="circlePrimary"
+            />
+          </Box>
+
+          <Box flexDirection="row" mt="xl" mb="m">
             <Box
-              width={150}
-              height={150}
+              width={getNormalizedSizeWithPlatformOffset(150)}
+              height={getNormalizedVerticalSizeWithPlatformOffset(150)}
               borderRadius={16}
               backgroundColor="cardPrimaryBackground"
-            >
-
-              </Box>
-
+            />
 
             <Box
-              width={200}
-              height={150}
+              width={getNormalizedSizeWithPlatformOffset(180)}
+              height={getNormalizedVerticalSizeWithPlatformOffset(150)}
               borderRadius={16}
               backgroundColor="cardPrimaryBackground"
               ml="m"
-            >
-
-              </Box>
+            />
           </Box>
 
-          <FlatList 
-            style={{ height: "100%" }}
+          <FlatList
+            style={{height: '100%'}}
             data={Data}
             renderItem={() => (
               <Box
-                width={"100%"}
+                width={'100%'}
                 height={80}
                 backgroundColor="mainBackground"
                 borderRadius={16}
@@ -91,45 +83,30 @@ export default () => {
                 flexDirection="row"
                 justifyContent="space-between"
                 alignItems="center"
-                paddingHorizontal="l"
-              >
+                paddingHorizontal="l">
                 <Box>
                   <Text>Nome da tarefa</Text>
                   <Text>Prioridade</Text>
                 </Box>
-               
-               <TouchableOpacity
-                activeOpacity={0.8}
-                style={{
-                  height: 30,
-                  width: 30,
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderWidth: 1,
-                  borderColor: "#212121",
-                  backgroundColor: "#000000",
-                }}
-                onPress={() => navigate("PomodoroScreen")}
-               >
-                <Icon name="play" size={14} color="#FFFFFF" />
-               </TouchableOpacity>
+
+                <Button
+                  icon={<Icon name="play" size={14} color="#FFFFFF" />}
+                  onPress={() => navigate('PomodoroScreen')}
+                  buttonVariants="circlePrimary"
+                />
               </Box>
             )}
           />
-        
+        </Box>
 
-      </Box>
-    
-        {isOpenBottomSheet &&  (
-          <BottomSheet 
+        {isOpenBottomSheet && (
+          <BottomSheet
             title="Criar Tarefa"
-            onClose={() => setIsOpenBottomSheet(false)} 
+            onClose={() => setIsOpenBottomSheet(false)}
             children={<AddTask />}
           />
         )}
       </View>
     </SafeAreaView>
-  
-  )
-}
+  );
+};

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Icon from 'react-native-vector-icons/Feather'
 
 import { Box, DonutChart, Text } from '../../components'
 import { calculePercentage, task } from '../../../utils'
 import { useFont } from '@shopify/react-native-skia'
+import { useNavigation } from '@react-navigation/native'
 
 type Props = {}
 
@@ -16,6 +18,8 @@ const GAP = 0.04
 const DATA = [0, 1, 2, 3, 4, 5]
 
 const DetailsTheDay = (props: Props) => {
+  const { goBack } = useNavigation()
+
   const n = 5;
   const [data, setData] = useState<any>([])
   const totalValue = useSharedValue<number>(0)
@@ -62,6 +66,23 @@ const DetailsTheDay = (props: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Box 
+        flexDirection='row' 
+        alignItems='center' 
+        justifyContent='space-between' 
+        width={"100%"}
+        paddingHorizontal='m'
+        mt='m'
+        >
+        <TouchableOpacity 
+          activeOpacity={0.8}
+          onPress={() => goBack()}
+        >
+          <Icon name="chevron-left" color="#212121" size={32} />
+        </TouchableOpacity>
+        <Text>Detalhes do Dia</Text>
+        <Box height={40} width={40}/>
+      </Box>
 
       <FlatList
         data={data}

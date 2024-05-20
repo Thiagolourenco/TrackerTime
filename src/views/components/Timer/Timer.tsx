@@ -5,11 +5,18 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   Easing,
+  useDerivedValue,
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 import { Box } from '..';
+import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
+const RADIUS = 160
+const STROKE_WIDTH = 30;
+const OUTER_STROKE_WIDTH = 36
+const GAP = 0.04
 
 const Timer: React.FC = () => {
   const [isFocusing, setIsFocusing] = useState(true);
@@ -34,15 +41,30 @@ const Timer: React.FC = () => {
     }
   }, [isRunning, timeLeft, progress]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    strokeDashoffset: withTiming(
-      circumference * (1 - progress.value / 100),
-      {
-        duration: 0,
-        easing: Easing.linear,
-      }
-    ),
-  }));
+  const innerRadius = RADIUS - OUTER_STROKE_WIDTH / 2
+
+  const end = useSharedValue(0);
+
+  const handlePress = () => {
+    console.log("TIME LEF", timeLeft)
+    // const generateRandomValue = generateRandomNumber(GOALS);
+    // const generatePercentage = calculatePercentage(generateRandomValue, GOALS);
+    // setBalance(generateRandomValue);
+    // percentage.value = withTiming(generatePercentage, {duration: 1000});
+    end.value = withTiming(10 / 100, {duration: 1000});
+  };
+
+  useEffect(() => {
+    handlePress()
+
+    return () => {
+      end.value = 0
+    }
+  }, [end, timeLeft])
+
+  const path = Skia.Path.Make()
+  path.addCircle(RADIUS, RADIUS, innerRadius)
+
 
   const toggleTimer = () => {
     setIsRunning((prev) => !prev);
@@ -94,26 +116,31 @@ const Timer: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <Svg height={2 * radius} width={2 * radius}>
-        <Circle
-          stroke="#e6e6e6"
-          fill="none"
-          strokeWidth={15}
-          cx={radius}
-          cy={radius}
-          r={radius - 10}
+      <Box style={{ width: RADIUS * 2, height: RADIUS * 2, marginTop: RADIUS / 2, marginLeft: RADIUS / 4.4}}>
+      <Canvas style={{ flex: 1 }}>
+        <Path
+            path={path}
+            color="#000"
+            style="stroke"
+            strokeJoin="round"
+            strokeWidth={OUTER_STROKE_WIDTH}
+            strokeCap="round"
+            start={0}
+            end={1}
         />
-        <AnimatedCircle
-          stroke={isFocusing ? '#9b59b6' : '#fafa'}
-          fill="none"
-          strokeWidth={15}
-          cx={radius}
-          cy={radius}
-          r={radius - 10}
-          strokeDasharray={`${circumference} ${circumference}`}
-          style={animatedStyle}
+
+<Path
+          path={path}
+          strokeWidth={OUTER_STROKE_WIDTH}
+          color="#c2ecff"
+          style="stroke"
+          strokeJoin="round"
+          strokeCap="round"
+          start={0}
+          end={end}
         />
-      </Svg>
+      </Canvas>
+      </Box>
       <Text style={styles.timerText}>
         {`${Math.floor(timeLeft / 60)}:${(timeLeft % 60 < 10 ? '0' : '') + (timeLeft % 60)}`}
       </Text>

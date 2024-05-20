@@ -1,230 +1,226 @@
-import { View, TouchableOpacity, Modal } from 'react-native'
-import React, { useState } from 'react'
-import Icon from 'react-native-vector-icons/Ionicons'
+import {TouchableOpacity, Modal, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Box, Text, Button } from '../../components'
-import { PaylwallIlustration } from '../../../assets'
+import {Box, Text, Button} from '../../components';
+import {PaylwallIlustration} from '../../../assets';
+import {getNormalizedVerticalSizeWithPlatformOffset} from '../../../helpers/pixelPerfect';
 
 interface IPaywallScreen {
-  isShow: boolean,
-  close: () => void
+  isShow: boolean;
+  close: () => void;
 }
 
-const PaywallScreen = ({ close, isShow }: IPaywallScreen) => {
-  const [planSelect, setPlanSelect] = useState<string | null>("monthly")
+const PaywallScreen = ({close, isShow}: IPaywallScreen) => {
+  const [planSelect, setPlanSelect] = useState<string | null>('monthly');
 
   const handleSelectPlan = (plan: string) => {
-    setPlanSelect(plan)
-  }
-  
+    setPlanSelect(plan);
+  };
+
   const handleClose = () => {
-    close()
-  }
+    close();
+  };
 
   return (
     <Modal
       visible={isShow}
-      style={{ height: 600 }}
+      style={{height: 600}}
       transparent
-      animationType='slide'
-    >
-      <Box height={"100%"} backgroundColor='blackOpacity'>
-        <Box 
-          justifyContent='center' 
-          alignItems='center'
-          height={"90%"} 
-          width={"100%"}
-          backgroundColor='white'
-          position='absolute'
+      animationType="slide">
+      <Box height={'100%'} backgroundColor="blackOpacity">
+        <Box
+          justifyContent="center"
+          alignItems="center"
+          height={'90%'}
+          width={'100%'}
+          backgroundColor="white"
+          position="absolute"
           bottom={0}
-          borderTopRightRadius={16} 
-          borderTopLeftRadius={16}
-          pb="xll"
-        >
-
-          <TouchableOpacity
-            activeOpacity={0.8} 
-            onPress={close}
-            style={{ marginBottom: 32, position: "absolute", left: 16, top: 16}}
-          >
-            <Icon name="close" size={32} color="#000" />
-          </TouchableOpacity>
-
-          <PaylwallIlustration />
-          <Text
-            fontSize={18}
-            fontWeight='bold' 
-            mb='m'       
-            color="textColor"
-
-          >Destrave novas feature</Text>
-
-          <Box 
-            borderBottomWidth={1} 
-            borderBottomColor='background' 
-            width={"90%"}
-            mb='m'
-            pb="m"
-          >
-          
-          <Box 
-            flexDirection='row'
-            alignItems='center'
-            mr='l'
-          >
-            <Box 
-              width={10}
-              height={10}
-              borderRadius={8}
-              backgroundColor='purplePrimary'
-              borderWidth={3}
-              borderColor='purpleLight'
-              mr="m"
-              mb="s"
-            />
-            <Text
-              fontSize={12}
-              fontWeight='600'
-              color="textColorGray"
-              mb="s"
-              textAlign='left'
-            >
-              Aumento da produtividade: O método Pomodoro ajuda a manter o foco, reduzindo a procrastinação e aumentando a eficiência.
+          borderTopRightRadius={16}
+          borderTopLeftRadius={16}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              alignItems: 'center',
+              paddingBottom: getNormalizedVerticalSizeWithPlatformOffset(32),
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={close}
+              style={{
+                marginBottom: 32,
+                position: 'absolute',
+                left: 16,
+                top: 16,
+              }}>
+              <Icon name="close" size={32} color="#000" />
+            </TouchableOpacity>
+            <PaylwallIlustration />
+            <Text fontSize={18} fontWeight="bold" mb="m" color="textColor">
+              Destrave novas feature
             </Text>
-          </Box>
-          
-          <Box 
-            flexDirection='row'
-            alignItems='center'
-            mr='l'
-          >
-            <Box 
-              width={10}
-              height={10}
-              borderRadius={8}
-              backgroundColor='purplePrimary'
-              borderWidth={3}
-              borderColor='purpleLight'
-              mr="m"
-              mb="s"
-            />
-            <Text
-              fontSize={12}
-              fontWeight='600'
-              color="textColorGray"
-              mb="s"
-              textAlign='left'
-            >
-              Organize suas tarefas de forma estruturada, otimizando seu tempo e priorizando atividades importantes.
-            </Text>
-          </Box>
 
-          <Box 
-            flexDirection='row'
-            alignItems='center'
-            mr='l'
-          >
-            <Box 
-              width={10}
-              height={10}
-              borderRadius={8}
-              backgroundColor='purplePrimary'
-              borderWidth={3}
-              borderColor='purpleLight'
-              mr="m"
-              mb="s"
-            />
-
-            <Text
-              fontSize={12}
-              fontWeight='600'
-              color="textColorGray"
-              mb="s"
-              textAlign='left'
-            >
-              Melhoria na concentração: Dividir o trabalho em intervalos de tempo ajuda a manter a concentração e a qualidade das tarefas
-            </Text>
-          </Box>
-          </Box>
-
-
-          <TouchableOpacity style={{width: "90%"}} onPress={() => handleSelectPlan('monthly')} activeOpacity={0.9}>
-            <Box 
-              backgroundColor='background' 
-              padding='s' 
-              width={"100%"}
-              borderRadius={8}
-              flexDirection='row'
-              paddingVertical='m'
-              alignItems='center'
-            >
-              <Box 
-                backgroundColor={planSelect === "monthly" ? 'purplePrimary' : "white"} 
-                justifyContent='center' 
-                alignItems='center' 
-                width={25} 
-                height={25} 
-                borderRadius={13} mr='m'>
-                  {planSelect === "monthly" && <Icon name="checkmark" color="white" size={20} />}
+            <Box
+              borderBottomWidth={1}
+              borderBottomColor="background"
+              width={'90%'}
+              mb="m"
+              pb="m">
+              <Box flexDirection="row" alignItems="center" mr="l">
+                <Box
+                  width={10}
+                  height={10}
+                  borderRadius={8}
+                  backgroundColor="purplePrimary"
+                  borderWidth={3}
+                  borderColor="purpleLight"
+                  mr="m"
+                  mb="s"
+                />
+                <Text
+                  fontSize={12}
+                  fontWeight="600"
+                  color="textColorGray"
+                  mb="s"
+                  textAlign="left">
+                  Aumento da produtividade: O método Pomodoro ajuda a manter o
+                  foco, reduzindo a procrastinação e aumentando a eficiência.
+                </Text>
               </Box>
-              <Box>
-                <Text color='textColor'>R$ 29,90 / Mês</Text>
-                <Text color='textColor'>3 dias grátis</Text>
+
+              <Box flexDirection="row" alignItems="center" mr="l">
+                <Box
+                  width={10}
+                  height={10}
+                  borderRadius={8}
+                  backgroundColor="purplePrimary"
+                  borderWidth={3}
+                  borderColor="purpleLight"
+                  mr="m"
+                  mb="s"
+                />
+                <Text
+                  fontSize={12}
+                  fontWeight="600"
+                  color="textColorGray"
+                  mb="s"
+                  textAlign="left">
+                  Organize suas tarefas de forma estruturada, otimizando seu
+                  tempo e priorizando atividades importantes.
+                </Text>
+              </Box>
+
+              <Box flexDirection="row" alignItems="center" mr="l">
+                <Box
+                  width={10}
+                  height={10}
+                  borderRadius={8}
+                  backgroundColor="purplePrimary"
+                  borderWidth={3}
+                  borderColor="purpleLight"
+                  mr="m"
+                  mb="s"
+                />
+
+                <Text
+                  fontSize={12}
+                  fontWeight="600"
+                  color="textColorGray"
+                  mb="s"
+                  textAlign="left">
+                  Melhoria na concentração: Dividir o trabalho em intervalos de
+                  tempo ajuda a manter a concentração e a qualidade das tarefas
+                </Text>
               </Box>
             </Box>
-          </TouchableOpacity>
-          
 
-          <TouchableOpacity style={{width: "90%"}} onPress={() => handleSelectPlan('yearly')} activeOpacity={0.9}>
-
-          <Box
-            backgroundColor='background' 
-            padding='s' 
-            width={"100%"}
-            borderRadius={8}
-            flexDirection='row'
-            paddingVertical='m'
-            alignItems='center'
-            mt="m"
-          >
-            <Box 
-              backgroundColor={planSelect === "yearly" ? "purplePrimary" : "white"} 
-              width={25} 
-              height={25} 
-              borderRadius={13} 
-              justifyContent='center' 
-              alignItems='center' 
-              mr='m'
-            >
-              {planSelect === "yearly" && <Icon name="checkmark" color="white" size={20} />}
-            </Box>
-
-              <Box>
-              <Text color='textColor'>R$ 129,00 / ano</Text>
-              <Text color='textColor'>menos de 1,29 por mês</Text>
+            <TouchableOpacity
+              style={{width: '90%'}}
+              onPress={() => handleSelectPlan('monthly')}
+              activeOpacity={0.9}>
+              <Box
+                backgroundColor="background"
+                padding="s"
+                width={'100%'}
+                borderRadius={8}
+                flexDirection="row"
+                paddingVertical="m"
+                alignItems="center">
+                <Box
+                  backgroundColor={
+                    planSelect === 'monthly' ? 'purplePrimary' : 'white'
+                  }
+                  justifyContent="center"
+                  alignItems="center"
+                  width={25}
+                  height={25}
+                  borderRadius={13}
+                  mr="m">
+                  {planSelect === 'monthly' && (
+                    <Icon name="checkmark" color="white" size={20} />
+                  )}
+                </Box>
+                <Box>
+                  <Text color="textColor">R$ 29,90 / Mês</Text>
+                  <Text color="textColor">3 dias grátis</Text>
+                </Box>
               </Box>
-            </Box>
-          </TouchableOpacity>
-          <Button
-            marginTop='l'
-            width={240}
-            borderRadius={8}
-            paddingVertical='m'
-            backgroundColor='purplePrimary'
-            onPress={() => handleClose()}
-            label='Iniciar 3 dias grátis'
-          />
-          {/* <TouchableOpacity>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{width: '90%'}}
+              onPress={() => handleSelectPlan('yearly')}
+              activeOpacity={0.9}>
+              <Box
+                backgroundColor="background"
+                padding="s"
+                width={'100%'}
+                borderRadius={8}
+                flexDirection="row"
+                paddingVertical="m"
+                alignItems="center"
+                mt="m">
+                <Box
+                  backgroundColor={
+                    planSelect === 'yearly' ? 'purplePrimary' : 'white'
+                  }
+                  width={25}
+                  height={25}
+                  borderRadius={13}
+                  justifyContent="center"
+                  alignItems="center"
+                  mr="m">
+                  {planSelect === 'yearly' && (
+                    <Icon name="checkmark" color="white" size={20} />
+                  )}
+                </Box>
+
+                <Box>
+                  <Text color="textColor">R$ 129,00 / ano</Text>
+                  <Text color="textColor">menos de 1,29 por mês</Text>
+                </Box>
+              </Box>
+            </TouchableOpacity>
+            <Button
+              marginTop="l"
+              width={240}
+              borderRadius={8}
+              paddingVertical="m"
+              backgroundColor="purplePrimary"
+              onPress={() => handleClose()}
+              label="Iniciar 3 dias grátis"
+            />
+            {/* <TouchableOpacity>
             <Text>
               Iniciar 3 dias grátis
             </Text>
           </TouchableOpacity> */}
+          </ScrollView>
         </Box>
       </Box>
-      
     </Modal>
+  );
+};
 
-  )
-}
-
-export default PaywallScreen
+export default PaywallScreen;

@@ -1,23 +1,27 @@
-import { createTheme } from '@shopify/restyle'
+import {createTheme} from '@shopify/restyle';
+import {
+  getNormalizedSizeWithPlatformOffset,
+  getNormalizedVerticalSizeWithPlatformOffset,
+} from '../helpers/pixelPerfect';
 
 const palette = {
   button: {
     primary: {
-      background: "#405B94",
-      text: "#FFFFFF"
+      background: '#405B94',
+      text: '#FFFFFF',
     },
     secondary: {
-      background: "#7FD1B9",
-      text: "#405B94"
-    }
+      background: '#7FD1B9',
+      text: '#405B94',
+    },
   },
   icon: {
-    background: "#FFD166",
+    background: '#FFD166',
   },
-  background: "#E5E5E5",
-  textColor: "#000000",
-  textColorGray: "#7f8c8d",
-  textBlue: "#405B94",
+  background: '#E5E5E5',
+  textColor: '#000000',
+  textColorGray: '#7f8c8d',
+  textBlue: '#405B94',
   purpleLight: '#8C6FF7',
   purplePrimary: '#5A31F4',
   purpleDark: '#3F22AB',
@@ -29,8 +33,8 @@ const palette = {
   black: '#000000',
   black400: '#212121',
   white: '#ffffff',
-  gray: "#f4f7fc",
-  blackOpacity: "rgba(0,0,0,0.4)"
+  gray: '#f4f7fc',
+  blackOpacity: 'rgba(0,0,0,0.4)',
 };
 
 const theme = createTheme({
@@ -47,10 +51,11 @@ const theme = createTheme({
     white: palette.white,
     blackOpacity: palette.blackOpacity,
     black400: palette.black400,
+    black: palette.black,
     greenLight: palette.greenLight,
     greenDark: palette.greenDark,
     greenPrimary: palette.greenPrimary,
-    gray: palette.gray
+    gray: palette.gray,
   },
   spacing: {
     s: 8,
@@ -60,9 +65,17 @@ const theme = createTheme({
     l: 24,
     ll: 32,
     xl: 40,
-    xll: 100
+    xll: 100,
   },
   textVariants: {
+    button1: {
+      fontSize: 16,
+      lineHeight: 24,
+    },
+    button2: {
+      fontSize: 12,
+      lineHeight: 12,
+    },
     header: {
       fontWeight: 'bold',
       fontSize: 34,
@@ -73,6 +86,24 @@ const theme = createTheme({
     },
     defaults: {
       // We can define a default text variant here.
+    },
+  },
+  buttonVariants: {
+    primary: {
+      height: getNormalizedVerticalSizeWithPlatformOffset(44),
+      width: getNormalizedSizeWithPlatformOffset(280),
+      borderRadius: 8,
+      backgroundColor: 'buttonPrimary',
+    },
+    secondary: {},
+    roudennd: {},
+    circlePrimary: {
+      backgroundColor: 'black400',
+      width: 30,
+      height: 30,
+      borderRadius: 15,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   },
 });

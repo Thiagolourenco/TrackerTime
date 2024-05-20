@@ -1,4 +1,4 @@
-import StackNavigator from "./StackNavigator";
-import TabBottomRoutes from "./TabBottom";
+import StackNavigator from './StackNavigator';
+import TabBottomRoutes from './TabBottom';
 
-export { StackNavigator, TabBottomRoutes }
+export {StackNavigator, TabBottomRoutes};

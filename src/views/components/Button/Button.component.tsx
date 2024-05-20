@@ -1,43 +1,59 @@
-import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
-import { 
-  useRestyle, 
-  spacing,
-  border, 
-  backgroundColor, 
-  SpacingProps,
-  BorderProps, 
-  BackgroundColorProps, 
-  
-  composeRestyleFunctions
-} from '@shopify/restyle'
+import React, { ReactNode } from 'react';
+import {TouchableOpacity} from 'react-native';
+import {
+  BoxProps,
+  VariantProps,
+  createRestyleComponent,
+  createVariant,
+} from '@shopify/restyle';
 
-import { Box } from '../Box'
-import { Text } from '../Text'
-import { Theme } from '../../../theme/theme'
+import {Box} from '../Box';
+import {Text} from '../Text';
+import {Theme} from '../../../theme/theme';
 
-type RestyleProps = SpacingProps<Theme> & BorderProps<Theme> & BackgroundColorProps<Theme>;
+type Props = BoxProps<Theme> &
+  VariantProps<Theme, 'buttonVariants', 'buttonVariants'> &
+  VariantProps<Theme, 'textVariants', 'textVariants'> & {
+    onPress: () => void;
+    label?: string;
+    icon?: ReactNode;
+  };
 
-const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
-  spacing,
-  border,
-  backgroundColor
-])
+const buttonVariants = createVariant<Theme, 'buttonVariants'>({
+  themeKey: 'buttonVariants',
+});
 
-type Props = RestyleProps & {
-  onPress: () => void;
-  label: string
-  width: number
-}
+const Card = createRestyleComponent<
+  VariantProps<Theme, 'buttonVariants'> & React.ComponentProps<typeof Box>,
+  Theme
+>([buttonVariants], Box);
 
-const Button = ({ onPress, label, width, ...rest }: Props) => {
+const Button = ({
+  onPress,
+  label,
+  textVariants,
+  buttonVariants = 'primary',
+  icon,
+  ...rest
+}: Props) => {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-      <Box {...rest} width={width} alignItems='center' justifyContent='center'>
-        <Text variant='body' color='buttonPrimaryText'>{label}</Text>
-      </Box>
+      <Card
+        width={'auto'}
+        alignItems="center"
+        justifyContent="center"
+        alignSelf="center"
+        variant={buttonVariants}
+        {...rest}>
+        {icon && icon}
+        {label && (
+          <Text variant={textVariants} color="buttonPrimaryText">
+            {label}
+          </Text>
+        )}
+      </Card>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

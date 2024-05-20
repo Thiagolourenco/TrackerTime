@@ -51,5 +51,12 @@ target 'TrackerTime' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+
+    # Setting IPHONEOS_DEPLOYMENT_TARGET to '9.0' for all targets
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+      end
+    end
   end
 end

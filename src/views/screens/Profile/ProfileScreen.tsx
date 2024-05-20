@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Modal, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Modal, SafeAreaView, TouchableOpacity, ScrollView, useWindowDimensions} from 'react-native'
 import IconF from 'react-native-vector-icons/Feather'
 import IconIonicons from 'react-native-vector-icons/Ionicons'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
@@ -9,12 +9,6 @@ import { Box, Text } from '../../components'
 import BottomSheet from '../../components/BottomSheet/BottomSheet'
 import { getNormalizedSizeWithPlatformOffset, getNormalizedVerticalSizeWithPlatformOffset } from '../../../helpers/pixelPerfect'
 import { useNavigation } from '@react-navigation/native'
-
-// shield-checkmark-outline
-// Person
-// bell
-// help-circle
-// logout
 
 
 const PROFILE_LIST = [
@@ -56,7 +50,10 @@ const ProfileScreen = () => {
   const [isPremium, setIsPremium] = useState<boolean>(false)
   const [isLogout, setIsLogout] = useState<boolean>(false)
 
-  const { setParams } = useNavigation()
+  const {height} = useWindowDimensions();
+  const {setParams} = useNavigation();
+
+  const padding = height * 0.06;
 
   const handleIsPremium = () => {
     setIsPremium(true)
@@ -65,7 +62,7 @@ const ProfileScreen = () => {
   const handleIsOpenBottomSheetLogout = () => {
     setIsLogout(true)
 
-    setParams({ isBottomSheet: true }) // TIPAR 
+    setParams({isBottomSheet: true}); // TIPAR
   }
 
   const handleClose = () => {
@@ -132,9 +129,10 @@ const ProfileScreen = () => {
   }
   return (
     <SafeAreaView>
-      <Box
-        marginHorizontal='m'
-      >
+
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: getNormalizedVerticalSizeWithPlatformOffset(150)}}>
+
+      <Box marginHorizontal='m'>
         <Text
           fontSize={16}
           fontWeight='700'
@@ -243,18 +241,22 @@ const ProfileScreen = () => {
         </Box>
       </Box>
       
-      <PaywallScreen isShow={isPremium} close={() => setIsPremium(false)} />
-     {isLogout && (
+    
+           </ScrollView>
+           <PaywallScreen isShow={isPremium} close={() => setIsPremium(false)} />
+
+           {isLogout && (
         <BottomSheet 
           title='Sair'
           onClose={handleClose}
-          height={220}
+          height={240}
           children={<Logout />}
-          sheetOverDrag={120}
+          sheetOverDrag={getNormalizedVerticalSizeWithPlatformOffset(padding)}
         />
      )}
-     
-    </SafeAreaView>
+           </SafeAreaView>
+
+
 
   )
 }
