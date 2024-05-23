@@ -45,13 +45,14 @@ const Card = ({item, onNavigate}: ICard) => {
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      shadowColor="blackOpacity"
+      shadowColor="textColorGray"
       shadowOffset={{
-        height: 1,
-        width: 1,
+        height: 4,
+        width: 4,
       }}
-      shadowOpacity={0.4}
-      shadowRadius={0.4}
+      shadowOpacity={1}
+      shadowRadius={8}
+      elevation={8}
       paddingHorizontal="l">
       <Box>
         <Box

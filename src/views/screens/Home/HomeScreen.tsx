@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import {FlatList, Image, SafeAreaView, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {AddTask, Box, Text, Button} from '../../components';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
-import {
-  getNormalizedSizeWithPlatformOffset,
-  getNormalizedVerticalSizeWithPlatformOffset,
-} from '../../../helpers/pixelPerfect';
 import {RoutesNavigationBottomTab} from '../../../@types';
 import Card from './Card.component';
+import HeaderFlatList from './HeaderFlatList.component';
 
 Icon.loadFont();
 
@@ -44,93 +41,50 @@ const DATA = [
 export default () => {
   const [isOpenBottomSheet, setIsOpenBottomSheet] = useState<boolean>(false);
 
-  const {navigate} = useNavigation<PropsNavigation>();
+  const {navigate, setParams} = useNavigation<PropsNavigation>();
 
-  const handleOpen = () => {
+  const handleOpenBottomSheet = () => {
     setIsOpenBottomSheet(true);
+    setParams({isBottomSheet: true}); // TIPAR
+  };
+
+  const handleCloseBottomSheet = () => {
+    setIsOpenBottomSheet(false)
+    setParams({isBottomSheet: false}); // TIPAR
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <View style={{height: '100%'}}>
-        <Box marginHorizontal="m">
+        <Box>
           <Box
             flexDirection="row"
             justifyContent="space-between"
-            alignItems="center">
+            alignItems="center"
+            marginHorizontal="m">
             <Box flexDirection="row" alignItems="center">
-              <Box
-                width={50}
-                height={50}
-                borderRadius={25}
-                backgroundColor="mainBackground"
+              <Image
+                source={require('../../../assets/image/Profile.jpeg')}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
+                }}
               />
               <Text ml="sm">Olá, Thiago</Text>
             </Box>
 
             <Button
               icon={<Icon name="plus" color="#ffffff" size={12} />}
-              onPress={handleOpen}
+              onPress={handleOpenBottomSheet}
               buttonVariants="circlePrimary"
             />
           </Box>
 
-          <Box flexDirection="row" mt="xl" mb="m">
-            <Box
-              width={getNormalizedSizeWithPlatformOffset(150)}
-              height={getNormalizedVerticalSizeWithPlatformOffset(120)}
-              borderRadius={16}
-              paddingHorizontal="s"
-              paddingTop="m"
-              backgroundColor="mainBackground">
-              <Text fontSize={18} color="black400" fontWeight="700">
-                Tarefas de Hoje
-              </Text>
-              <Text
-                marginTop="m"
-                fontSize={16}
-                color="black400"
-                fontWeight="500">
-                3/8 Finalizadas
-              </Text>
-
-              <Box
-                mt="m"
-                height={14}
-                borderRadius={12}
-                width={'100%'}
-                backgroundColor="greenLight"
-              />
-            </Box>
-
-            <Box
-              width={getNormalizedSizeWithPlatformOffset(180)}
-              height={getNormalizedVerticalSizeWithPlatformOffset(120)}
-              borderRadius={16}
-              backgroundColor="purpleLight"
-              ml="m"
-              paddingHorizontal="s"
-              paddingTop="m">
-              <Text fontSize={18} color="white" fontWeight="700">
-                Em progresso
-              </Text>
-              <Text marginTop="m" fontSize={16} color="white" fontWeight="500">
-                2/5 Tarefas
-              </Text>
-
-              <Box
-                mt="m"
-                height={14}
-                borderRadius={12}
-                width={'100%'}
-                backgroundColor="gray"
-              />
-            </Box>
-          </Box>
-
           <FlatList
-            style={{height: '100%'}}
+            style={{height: '100%', paddingHorizontal: 16}}
             data={DATA}
+            ListHeaderComponent={<HeaderFlatList />}
             renderItem={({item}) => (
               <Card item={item} onNavigate={() => navigate('PomodoroScreen')} />
             )}
@@ -140,7 +94,7 @@ export default () => {
         {isOpenBottomSheet && (
           <BottomSheet
             title="Criar Tarefa"
-            onClose={() => setIsOpenBottomSheet(false)}
+            onClose={handleCloseBottomSheet}
             children={<AddTask />}
           />
         )}

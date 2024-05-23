@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, TouchableOpacity, useWindowDimensions} from 'react-native';
+import {FlatList, useWindowDimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {

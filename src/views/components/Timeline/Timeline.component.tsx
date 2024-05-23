@@ -59,20 +59,6 @@ const TimelineCalendar = () => {
                 right={-240}
                 top={-8}
               />
-              {/* <TouchableOpacity
-                style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 20,
-                  backgroundColor: '#405B94',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'absolute',
-                  right: -4,
-                  top: -4,
-                }}>
-                <Icon name="arrow-up-right" color="#ffffff" size={16} />
-              </TouchableOpacity> */}
             </Box>
             <Text fontSize={16} fontWeight="500">
               Acordar de manhã

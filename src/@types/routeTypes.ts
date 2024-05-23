@@ -4,7 +4,9 @@ export type RoutesNavigationStack = {
 };
 
 export type RoutesNavigationBottomTab = {
-  HomeScreen: undefined;
+  HomeScreen: {
+    isBottomSheet: boolean;
+  };
   PomodoroScreen: undefined;
   ScheduleScreen: undefined;
   Analytics: undefined;
