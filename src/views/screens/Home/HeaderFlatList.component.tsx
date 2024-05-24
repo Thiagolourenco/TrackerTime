@@ -20,8 +20,8 @@ const HeaderFlatList = () => {
           height: 4,
           width: 4,
         }}
-        shadowOpacity={1}
-        shadowRadius={8}
+        shadowOpacity={0.4}
+        shadowRadius={4}
         elevation={8}>
         <Text fontSize={18} color="black400" fontWeight="700">
           Tarefas de Hoje
@@ -52,8 +52,8 @@ const HeaderFlatList = () => {
           height: 4,
           width: 4,
         }}
-        shadowOpacity={1}
-        shadowRadius={8}
+        shadowOpacity={0.4}
+        shadowRadius={4}
         elevation={8}>
         <Text fontSize={18} color="white" fontWeight="700">
           Em progresso

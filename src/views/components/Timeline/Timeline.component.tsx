@@ -19,35 +19,49 @@ const TimelineCalendar = () => {
       marginLeft="ll"
       height={'100%'}
       flex={1}
-      borderLeftColor="black400"
+      borderLeftColor="gray"
       borderLeftWidth={3}>
       <Box>
         <Box
           width={15}
           height={15}
           borderRadius={7}
-          backgroundColor="background"
+          backgroundColor="purplePrimary"
           style={{
             marginLeft: -getNormalizedSizeWithPlatformOffset(8),
           }}
         />
 
         <Box
-          style={{
-            backgroundColor: '#d7d7d7',
-            width: getNormalizedSizeWithPlatformOffset(300),
-            marginLeft: getNormalizedSizeWithPlatformOffset(16),
-            height: getNormalizedVerticalSizeWithPlatformOffset(100),
-            marginBottom: getNormalizedVerticalSizeWithPlatformOffset(18),
-            borderRadius: 16,
-            padding: 6,
-          }}>
+          backgroundColor="white"
+          borderWidth={0.5}
+          borderColor="gray"
+          borderLeftWidth={6}
+          borderLeftColor="badgeConclued"
+          shadowColor="textColorGray"
+          shadowOffset={{
+            height: 4,
+            width: 4,
+          }}
+          shadowOpacity={0.2}
+          shadowRadius={4}
+          elevation={8}
+          width={getNormalizedSizeWithPlatformOffset(300)}
+          borderRadius={16}
+          marginLeft="l"
+          padding="sm"
+          mb="m">
           <Box>
             <Box
               flexDirection="row"
               alignItems="center"
               style={{marginBottom: 2}}>
-              <Text fontSize={18} fontWeight="700" style={{marginRight: 6}}>
+              <Text
+                fontSize={18}
+                fontWeight="bold"
+                style={{marginRight: 6}}
+                color="textColorGray"
+                mb="s">
                 07:00
               </Text>
 
@@ -56,19 +70,30 @@ const TimelineCalendar = () => {
                 onPress={() => {}}
                 buttonVariants="circlePrimary"
                 position="absolute"
-                right={-240}
-                top={-8}
+                right={-230}
+                top={-16}
               />
             </Box>
             <Text fontSize={16} fontWeight="500">
               Acordar de manhã
             </Text>
-            <Text fontSize={14} fontWeight="400">
+            <Text fontSize={14} fontWeight="400" color="textColorGray">
               Acordar, levantar e tomar banh gelado
             </Text>
           </Box>
           {/** Validação se já foi concluido ou nao */}
-          <Text style={{marginTop: 12}}>Concluido</Text>
+          <Box
+            backgroundColor="badgeConclued"
+            height={20}
+            width={100}
+            justifyContent="center"
+            alignItems="center"
+            borderRadius={4}
+            mt="m">
+            <Text color="white" fontWeight="bold" fontSize={10}>
+              Concluído
+            </Text>
+          </Box>
         </Box>
       </Box>
     </Box>

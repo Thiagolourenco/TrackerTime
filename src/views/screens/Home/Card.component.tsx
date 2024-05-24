@@ -50,8 +50,8 @@ const Card = ({item, onNavigate}: ICard) => {
         height: 4,
         width: 4,
       }}
-      shadowOpacity={1}
-      shadowRadius={8}
+      shadowOpacity={0.4}
+      shadowRadius={4}
       elevation={8}
       paddingHorizontal="l">
       <Box>

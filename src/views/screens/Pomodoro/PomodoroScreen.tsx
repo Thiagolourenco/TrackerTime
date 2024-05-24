@@ -3,11 +3,14 @@ import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 // import Timer from '../../components/Timer/Timer';
 import {Canvas, Path, Skia} from '@shopify/react-native-skia';
-import {Box, Text} from '../../components';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {Box, Button, Text} from '../../components';
 import {useSharedValue} from 'react-native-reanimated';
 
 // import {useCountDown} from '../../../business/hooks';
 // import {calculatePercentagePomodoro} from '../../../utils';
+
+Icon.loadFont();
 
 const RADIUS = 120;
 const STROKE_WIDTH = 30;
@@ -19,6 +22,7 @@ export default () => {
 
   const [secondLeft, setSecondLeft] = useState<number>(25 * 60);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [isPlay, setIsPlay] = useState<boolean>(false);
 
   // const valueInMis = VALUE_MINU * 60;
   // const {countDown} = useCountDown(valueInMis);
@@ -78,14 +82,39 @@ export default () => {
 
   return (
     // <SafeAreaView>
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+        width: '100%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        paddingTop: 62,
+        backgroundColor: '#ffff',
+      }}>
       {/* <Timer /> */}
+      <Box alignItems="center">
+        <Text fontSize={16} color="black400" fontWeight="600">
+          Pomodoro Timer
+        </Text>
+      </Box>
+      <Box
+        position="absolute"
+        alignItems="center"
+        justifyContent="center"
+        left={RADIUS / 1}
+        top={RADIUS / 1}>
+        <Text fontSize={14} fontWeight="500" color="blackOpacity">
+          Tarefa
+        </Text>
+        <Text fontSize={18} fontWeight="bold" color="black400" marginTop="s">
+          Criar Tela Da Home
+        </Text>
+      </Box>
       <Box
         style={{
           width: RADIUS * 2,
           height: RADIUS * 2,
-          marginTop: RADIUS / 2,
-          marginLeft: RADIUS / 4.4,
+          marginTop: RADIUS,
         }}>
         <Canvas style={{flex: 1}}>
           <Path
@@ -93,7 +122,7 @@ export default () => {
             color="#212121"
             style="stroke"
             strokeJoin="round"
-            strokeWidth={STROKE_WIDTH / 1.5}
+            strokeWidth={STROKE_WIDTH / 2.5}
             strokeCap="round"
             start={0}
             end={1}
@@ -112,11 +141,79 @@ export default () => {
         </Canvas>
       </Box>
 
-      <TouchableOpacity onPress={startTimer}>
-        <Text>INICIAR</Text>
-      </TouchableOpacity>
+      <Box
+        position="absolute"
+        top={RADIUS / 0.43}
+        left={RADIUS / 0.9}
+        alignItems="center">
+        <Text fontSize={42} fontWeight="bold" color="black400">
+          {formatTime(secondLeft)}
+        </Text>
+        <Text
+          fontSize={14}
+          color="textColorGray"
+          fontWeight="500"
+          marginTop="s">
+          2 de 10 Sessões
+        </Text>
+      </Box>
 
-      <Text>{formatTime(secondLeft)}</Text>
+      <Box
+        position="absolute"
+        alignItems="center"
+        justifyContent="center"
+        bottom={RADIUS * 2}
+        left={RADIUS / 1.5}>
+        <Text fontSize={16} color="textColorGray" fontWeight="500">
+          Momento de Pausa, 5 minutos
+        </Text>
+
+        {/** Melhorar Essas validação  */}
+        {!isPlay && (
+          <Button
+            onPress={() => setIsPlay(true)}
+            buttonVariants="circlePlayAndPause"
+            backgroundColor="greenDark"
+            mt="m"
+            icon={
+              <Icon
+                name="play"
+                size={42}
+                color="white"
+                style={{marginLeft: 4}}
+              />
+            }
+          />
+        )}
+
+        {isPlay && (
+          <Box flexDirection="row" alignItems="center" justifyContent="center">
+            <TouchableOpacity style={{marginRight: 32}}>
+              <Icon name="undo" size={32} color="#212121" />
+            </TouchableOpacity>
+
+            <Button
+              onPress={() => setIsPlay(true)}
+              buttonVariants="circlePlayAndPause"
+              backgroundColor="greenDark"
+              mt="m"
+              icon={
+                <Icon
+                  name="pause"
+                  size={42}
+                  color="white"
+                  style={{marginLeft: 2}}
+                />
+              }
+            />
+            <TouchableOpacity
+              style={{marginLeft: 32}}
+              onPress={() => setIsPlay(false)}>
+              <Icon name="stop" size={32} color="#212121" />
+            </TouchableOpacity>
+          </Box>
+        )}
+      </Box>
     </View>
     // </SafeAreaView>
   );
