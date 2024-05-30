@@ -1,28 +1,32 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {Platform, TouchableOpacity, View} from 'react-native';
 // import Timer from '../../components/Timer/Timer';
 import {Canvas, Path, Skia} from '@shopify/react-native-skia';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Box, Button, Text} from '../../components';
 import {useSharedValue} from 'react-native-reanimated';
+import {getNormalizedSizeWithPlatformOffset} from '../../../helpers/pixelPerfect';
 
-// import {useCountDown} from '../../../business/hooks';
+import {useTimer} from '../../../business/hooks';
 // import {calculatePercentagePomodoro} from '../../../utils';
 
 Icon.loadFont();
 
-const RADIUS = 120;
+const RADIUS = getNormalizedSizeWithPlatformOffset(120);
 const STROKE_WIDTH = 30;
+const VALUE_LEFT_GP_BUTTON = Platform.OS === 'ios' ? 1.5 : 1.3;
 // const TIME = 100000;
 // const VALUE_MINU = 25;
 
 export default () => {
   const innerRadius = RADIUS - STROKE_WIDTH / 2;
 
-  const [secondLeft, setSecondLeft] = useState<number>(25 * 60);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  // const [secondLeft, setSecondLeft] = useState<number>(25 * 60);
+  // const [isActive, setIsActive] = useState<boolean>(false);
   const [isPlay, setIsPlay] = useState<boolean>(false);
+
+  const {startTimer, stopTimer, minutes, seconds} = useTimer();
 
   // const valueInMis = VALUE_MINU * 60;
   // const {countDown} = useCountDown(valueInMis);
@@ -45,21 +49,21 @@ export default () => {
   //   end.value = withTiming(countDown / valueInMis, {duration: 1000});
   // };
 
-  useEffect(() => {
-    let invervalId: NodeJS.Timeout;
+  // useEffect(() => {
+  //   let invervalId: NodeJS.Timeout;
 
-    if (isActive && secondLeft > 0) {
-      invervalId = setInterval(() => {
-        setSecondLeft(prev => prev - 1);
-      }, 1000);
-    }
+  //   if (isActive && secondLeft > 0) {
+  //     invervalId = setInterval(() => {
+  //       setSecondLeft(prev => prev - 1);
+  //     }, 1000);
+  //   }
 
-    return () => clearInterval(invervalId);
-  }, [isActive, secondLeft]);
+  //   return () => clearInterval(invervalId);
+  // }, [isActive, secondLeft]);
 
-  const startTimer = () => {
-    setIsActive(true);
-  };
+  // const startTimer = () => {
+  //   setIsActive(true);
+  // };
 
   // const stopTimer = () => {
   //   setIsActive(false);
@@ -70,15 +74,23 @@ export default () => {
   //   setSecondLeft(25 * 60);
   // };
 
-  const formatTime = (timeInSeconds: number) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds
-      .toString()
-      .padStart(2, '0')}`;
+  // const formatTime = (timeInSeconds: number) => {
+  //   const minutes = Math.floor(timeInSeconds / 60);
+  //   const seconds = timeInSeconds % 60;
+  //   return `${minutes.toString().padStart(2, '0')}:${seconds
+  //     .toString()
+  //     .padStart(2, '0')}`;
+  // };
+
+  const handlePlayPomodoro = () => {
+    startTimer();
+    setIsPlay(true);
   };
 
-  console.log('FORMAT', secondLeft);
+  const handleStopPomodoro = () => {
+    setIsPlay(false);
+    stopTimer();
+  };
 
   return (
     // <SafeAreaView>
@@ -122,7 +134,7 @@ export default () => {
             color="#212121"
             style="stroke"
             strokeJoin="round"
-            strokeWidth={STROKE_WIDTH / 2.5}
+            strokeWidth={STROKE_WIDTH / 2}
             strokeCap="round"
             start={0}
             end={1}
@@ -147,7 +159,7 @@ export default () => {
         left={RADIUS / 0.9}
         alignItems="center">
         <Text fontSize={42} fontWeight="bold" color="black400">
-          {formatTime(secondLeft)}
+          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </Text>
         <Text
           fontSize={14}
@@ -162,8 +174,8 @@ export default () => {
         position="absolute"
         alignItems="center"
         justifyContent="center"
-        bottom={RADIUS * 2}
-        left={RADIUS / 1.5}>
+        bottom={RADIUS * 1.5}
+        left={RADIUS / VALUE_LEFT_GP_BUTTON}>
         <Text fontSize={16} color="textColorGray" fontWeight="500">
           Momento de Pausa, 5 minutos
         </Text>
@@ -171,7 +183,7 @@ export default () => {
         {/** Melhorar Essas validação  */}
         {!isPlay && (
           <Button
-            onPress={() => setIsPlay(true)}
+            onPress={handlePlayPomodoro}
             buttonVariants="circlePlayAndPause"
             backgroundColor="greenDark"
             mt="m"
@@ -193,7 +205,7 @@ export default () => {
             </TouchableOpacity>
 
             <Button
-              onPress={() => setIsPlay(true)}
+              onPress={handleStopPomodoro}
               buttonVariants="circlePlayAndPause"
               backgroundColor="greenDark"
               mt="m"

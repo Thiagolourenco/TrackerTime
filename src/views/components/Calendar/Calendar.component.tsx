@@ -86,12 +86,11 @@ const CalendarComponent = ({onPressDay}: ICalendarComponent) => {
           {format(currentMonth, 'MMMM yyyy', {locale: ptBR})}
         </Text>
 
-        <Button 
+        <Button
           icon={<Icon name="right" size={16} color="#fff" />}
           onPress={handleNextMonth}
           buttonVariants="roudennd"
         />
-
       </Box>
 
       <Box
